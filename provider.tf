@@ -22,10 +22,10 @@ resource "aws_vpc" "main" {
 
 resource "aws_subnet" "main" {
   # If current workspace is dev return 0 or return 1
-  count      = local.az_count
-  vpc_id     = aws_vpc.main.id
-  cidr_block = cidrsubnet(var.vpc_cidr, 4, count.index)
-  tags       = local.tags
+  count             = local.az_count
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = cidrsubnet(var.vpc_cidr, 4, count.index)
+  tags              = local.tags
   availability_zone = local.az_names[count.index]
 }
 
