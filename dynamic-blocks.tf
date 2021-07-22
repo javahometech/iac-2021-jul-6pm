@@ -1,7 +1,3 @@
-variable "ingress" {
-  default = [80, 22, 443, 53]
-}
-
 resource "aws_security_group" "allow_tls" {
   name        = "allow_tls"
   description = "Allow TLS inbound traffic"
@@ -11,14 +7,12 @@ resource "aws_security_group" "allow_tls" {
     for_each = var.ingress
     content {
       description = "TLS from VPC"
-      from_port   = ingress.value
-      to_port     = ingress.value
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      from_port   = ingress.value.port
+      to_port     = ingress.value.port
+      protocol    = ingress.value.protocol
+      cidr_blocks = ingress.value.cidrs
     }
   }
-
-
 
   egress {
     from_port        = 0
